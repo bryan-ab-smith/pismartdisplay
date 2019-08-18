@@ -1,0 +1,26 @@
+body {
+    background-color: rgb(33, 37, 41);
+    color: white;
+    margin: 5%;
+}
+
+.spacer {
+    margin-top: 5vh;
+}
+
+.card {
+    width: 100%;
+}
+
+.smallInfo {
+    font-size: 14pt;
+}
+
+.verySmallInfo {
+    font-size: 10pt;
+}
+
+.list-group-item.active {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}

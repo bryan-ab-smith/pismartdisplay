@@ -1,0 +1,13 @@
+[Unit]
+Description = SmartScreen
+After = network.target
+
+[Service]
+PermissionsStartOnly = true
+User = pi
+WorkingDirectory = /home/pi/smartscreen/
+ExecStart = /usr/bin/env python3 index.py
+ExecReload = /bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy = multi-user.target
