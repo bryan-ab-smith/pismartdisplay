@@ -20,3 +20,5 @@ This was really only meant for my own setup at home so the code isn't very "flex
 3. Install the required Python modules: `pip3 install phue pyHS100`
 4. Copy the smartscreen.service to */etc/systemd/system*. Once there, tweak it as necessary (likely line 8 only, the *WorkingDirectory*, which is where the index.py file is).
 5. Run the following: `sudo systemctl enable smartscreen && sudo reboot`. This will enable the smartscreen service and reboot the device. Assuming everything goes well, you should be greeted with your smartscreen display.
+
+With this setup, your screen will stay on forever. You'll want to install a screensaver if you're using something like the official LCD screen (as I am).
