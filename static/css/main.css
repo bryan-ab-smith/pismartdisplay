@@ -1,3 +1,7 @@
+/*
+    Set the background colour of the page to a drak grey and the text to white.
+    Create a margin for the page.
+*/
 body {
     background-color: rgb(33, 37, 41);
     color: white;
@@ -23,4 +27,14 @@ body {
 .list-group-item.active {
     background-color: #6c757d;
     border-color: #6c757d;
+}
+
+/*
+    Remove the highlight on the buttons when tapped.
+    This makes it less "web page-y" by removing the browser's outline of the link button.
+    Source: https://stackoverflow.com/a/23337989
+*/
+.btn:focus,.btn:active  {
+    outline: none !important;
+    box-shadow: none;
 }

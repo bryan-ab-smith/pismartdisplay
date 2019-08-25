@@ -1,0 +1,140 @@
+<!DOCTYPE html5>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='static/css/main.css'>
+</head>
+
+<body>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-9'>
+                <h1 class='display-1' id='time'></h1>
+            </div>
+            <div class='col-3'>
+                <center>
+                    <span class='smallInfo align-middle' id='weather'></span>
+                    <br \>
+                    <span class='smallInfo align-middle' id='uv'></span>
+                    <p id='weatherUpdateDate' class='verySmallInfo'></p>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <p class='spacer'></p>
+
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="lightsList" data-toggle="list"
+                    href="#lightsListData" role="tab" aria-controls="home">Lights</a>
+                <a class="list-group-item list-group-item-action" id="plugsList" data-toggle="list"
+                    href="#plugsListData" role="tab" aria-controls="profile">Plugs</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content" id="tabContent">
+
+                <!-- Lights toggle panel -->
+                <div class="tab-pane fade show active" id="lightsListData" role="tabpanel" aria-labelledby="lightsList">
+                    <div class='card text-white bg-dark mb-3'>
+                        <div class='card-header'>
+                            <div class='grid'>
+                                <div class='row'>
+                                    <div class='col-sm-3 lead'>
+                                        Master
+                                    </div>
+                                    <div class='col-sm-8'>
+                                        <div class='col-sm-3' style='float: right;'>
+                                            <div class='btn-group' role='group'>
+                                                <button class='btn btn-secondary'
+                                                    onclick='toggleAllLights("True");'>On</button>
+                                                <button class='btn btn-secondary'
+                                                    onclick='toggleAllLights("False");'>Off</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='card-body'>
+                            <p class='card-text'>
+                                <div class='container'>
+                                    <div class='row'>
+
+                                        {% for light in lights %}
+                                        <div class='col-sm'>
+                                            <center>
+                                                <h5>{{ light }}</h5>
+                                                <p></p>
+                                                <div class='btn-group' role='group'>
+                                                    <button class='btn btn-secondary'
+                                                        onclick='toggleLight("True", "{{ light }}");'>On</button>
+                                                    <button class='btn btn-secondary'
+                                                        onclick='toggleLight("False", "{{ light }}");'>Off</button>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plugs toggle panel -->
+                <div class="tab-pane fade show" id="plugsListData" role="tabpanel" aria-labelledby="plugsList">
+                    <div class='card text-white bg-dark mb-3'>
+                        <div class='card-header'>
+                            <div class='grid'>
+                                <div class='row'>
+                                    <div class='col-sm-3 lead'>
+                                        Master
+                                    </div>
+                                    <div class='col-sm-8'>
+                                        <div class='col-sm-3' style='float: right;'>
+                                            <div class='btn-group' role='group'>
+                                                <button class='btn btn-secondary'
+                                                    onclick='toggleAllLights("True");'>On</button>
+                                                <button class='btn btn-secondary'
+                                                    onclick='toggleAllLights("False");'>Off</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='card-body'>
+                            <p class='card-text'>
+                                <div class='container'>
+                                    <div class='row'>
+                                        Under construction.
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='static/js/v2.js'></script>
+</body>
+
+</html>
