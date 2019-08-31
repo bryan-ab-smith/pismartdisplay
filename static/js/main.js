@@ -34,10 +34,10 @@ function getWeather() {
         type: 'GET',
         url: '',
         datatype: 'json',
-        success: function(json) {
+        success: function (json) {
             temp = Math.round(json.main.temp);
             conds = json.weather[0].main;
-            
+
             document.getElementById('weather').innerHTML = temp + '&deg; (' + conds + ')';
         }
     });
@@ -88,33 +88,33 @@ function getWeather() {
 
 function toggleBedroomLight(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/bedroomLightOn'});
+        $.ajax({ type: 'GET', url: '/bedroomLightOn' });
     } else {
-        $.ajax({type: 'GET', url: '/bedroomLightOff'});
+        $.ajax({ type: 'GET', url: '/bedroomLightOff' });
     }
 }
 
 function toggleDeskLampLight(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/deskLampLightOn'});
+        $.ajax({ type: 'GET', url: '/deskLampLightOn' });
     } else {
-        $.ajax({type: 'GET', url: '/deskLampLightOff'});
+        $.ajax({ type: 'GET', url: '/deskLampLightOff' });
     }
 }
 
 function toggleFrontHallLight(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/frontHallLightOn'});
+        $.ajax({ type: 'GET', url: '/frontHallLightOn' });
     } else {
-        $.ajax({type: 'GET', url: '/frontHallLightOff'});
+        $.ajax({ type: 'GET', url: '/frontHallLightOff' });
     }
 }
 
 function toggleAllLights(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/allLightsOn'});
+        $.ajax({ type: 'GET', url: '/allLightsOn' });
     } else {
-        $.ajax({type: 'GET', url: '/allLightsOff'});
+        $.ajax({ type: 'GET', url: '/allLightsOff' });
     }
 }
 
@@ -122,31 +122,31 @@ function toggleAllLights(status) {
 
 function toggleFanSwitch(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/fanSwitchOn'});
+        $.ajax({ type: 'GET', url: '/fanSwitchOn' });
     } else {
-        $.ajax({type: 'GET', url: '/fanSwitchOff'});
+        $.ajax({ type: 'GET', url: '/fanSwitchOff' });
     }
 }
 
 function toggleDehumidSwitch(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/dehumidSwitchOn'});
+        $.ajax({ type: 'GET', url: '/dehumidSwitchOn' });
     } else {
-        $.ajax({type: 'GET', url: '/dehumidSwitchOff'});
+        $.ajax({ type: 'GET', url: '/dehumidSwitchOff' });
     }
 }
 
 function toggleAllSwitches(status) {
     if (status == 'on') {
-        $.ajax({type: 'GET', url: '/allSwitchesOn'});
+        $.ajax({ type: 'GET', url: '/allSwitchesOn' });
     } else {
-        $.ajax({type: 'GET', url: '/allSwitchesOff'});
+        $.ajax({ type: 'GET', url: '/allSwitchesOff' });
     }
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     getTime();
-   
+
     getWeather();
 })
