@@ -49,19 +49,9 @@ function getWeather() {
         }
     });
 
-    $.ajax({
-        type: 'GET',
-        url: 'https://uvdata.arpansa.gov.au/xml/uvvalues.xml',
-        dataType: 'xml',
-        success: function (xml) {
-            $(xml).find('location').each(function () {
-                // You have to replace this with one of the supported cities by ARPANSA: https://www.arpansa.gov.au/our-services/monitoring/ultraviolet-radiation-monitoring/ultraviolet-radation-data-information
-                if ($(this).attr('id') == '') {
-                    document.getElementById('uv').innerHTML = 'UV: ' + $(this).find('index').text();
-                }
-            })
-        }
-    });
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getUVLatLong)
+    }
 
     var time = new Date();
 
@@ -93,70 +83,6 @@ function getWeather() {
     setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here.
 }
 
-function toggleBedroomLight(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/bedroomLightOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/bedroomLightOff' });
-    }
-}
-
-function toggleDeskLampLight(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/deskLampLightOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/deskLampLightOff' });
-    }
-}
-
-function toggleFrontHallLight(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/frontHallLightOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/frontHallLightOff' });
-    }
-}
-
-function toggleAllLights(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/allLightsOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/allLightsOff' });
-    }
-}
-
-
-
-function toggleFanSwitch(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/fanSwitchOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/fanSwitchOff' });
-    }
-}
-
-function toggleDehumidSwitch(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/dehumidSwitchOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/dehumidSwitchOff' });
-    }
-}
-
-function toggleAllSwitches(status) {
-    if (status == 'on') {
-        $.ajax({ type: 'GET', url: '/allSwitchesOn' });
-    } else {
-        $.ajax({ type: 'GET', url: '/allSwitchesOff' });
-    }
-}
-
-function getUV() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getUVLatLong)
-    }
-}
-
 
 function getUVLatLong(position) {
     uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + position.coords.latitude + '&lon=-' + position.coords.longitude + '&appid=' + owKey;
@@ -176,6 +102,23 @@ function getUVLatLong(position) {
             document.getElementById('uv').innerHTML = 'N/A';
         }
     });
+}
+
+
+function toggleAllLights(status) {
+    if (status == 'True') {
+        $.ajax({ type: 'GET', url: '/allLights/True' });
+    } else {
+        $.ajax({ type: 'GET', url: '/allLights/False' });
+    }
+}
+
+function toggleLight(status, name) {
+    if (status == 'True') {
+        $.ajax({ type: 'GET', url: '/light/True/' + name });
+    } else {
+        $.ajax({ type: 'GET', url: '/light/False/' + name });
+    }
 }
 
 
@@ -201,7 +144,5 @@ $(document).ready(function () {
         getTime();
 
         getWeather();
-
-        getUV();
     });
 });

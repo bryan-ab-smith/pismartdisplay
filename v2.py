@@ -9,7 +9,6 @@ from pyHS100 import SmartPlug, Discover
 bridge_addr = '192.168.0.2'
 
 
-
 ################## End of configure block ##################
 
 app = Flask(__name__)
@@ -23,7 +22,7 @@ bridge_obj.connect()
 # Get the api.
 bridge_obj.get_api()
 
-## Index route. Here, we sned device information to the index template.
+# Index route. Here, we send device information to the index template.
 @app.route('/')
 def index():
 
@@ -44,8 +43,9 @@ def index():
 
     # Render the homepage.
     return render_template('v2.html',
-        lights=lights,
-        plugs=plugs)
+                           lights=lights,
+                           plugs=plugs)
+
 
 @app.route('/light/<status>/<name>')
 def toggleLight(status, name):
@@ -54,6 +54,7 @@ def toggleLight(status, name):
     else:
         bridge_obj.set_light(name, 'on', True)
     return 'hi!'
+
 
 @app.route('/allLights/<status>')
 def toggleAllLights(status):
@@ -64,6 +65,7 @@ def toggleAllLights(status):
         for light in bridge_obj.lights:
             bridge_obj.set_light(light.name, 'on', True)
     return 'hi!'
+
 
 if __name__ == '__main__':
     app.debug = True
