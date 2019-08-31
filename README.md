@@ -12,13 +12,14 @@ I designed this not to be something available for everyone and so the code isn't
 You can track progress in the various _v2_ files -- v2.py, v2.html, v2.js. These will eventually become the main Flask app. Don't expect this to work until it becomes the main script.
 
 ### Current status of v2
-v2 runs and will control lights if properly configured (see the v2 Python script's configuration block at the top). Plugs don't work and the internationalisation of the UV index doesn't work (yet).
+v2 runs and will control lights if properly configured (see the v2 Python script's configuration block at the top). Plugs don't work ~~and the internationalisation of the UV index doesn't work~~ (yet).
 
 ### Plan
-- Dyanmic device creation. Right now, the app is hard coded for a specific smart device configuration. This should be generated automatically. Initial work on this has been done (eg. light controls are now dynamically generated based on the lights connected to your bridge).
-- Right now, the smart screen app requires internet access to pull in external third party libraries. I'd like these to be local so that this isn't necessary.
-- One central config file so that you don't have to edit various scripts.
-- International support for UV index readings.
+| Idea                         | Notes                                                                                                                         | Status                                                                                                                               |
+| ---------------------------- |:-----------------------------------------------------------------------------------------------------------------------------:| ------------------------------------------------------------------------------------------------------------------------------------:|
+| Dyanmic device creation      | Right now, the app is hard coded for a specific smart device configuration. This should be generated automatically.           | Initial work on this has been done (eg. light controls are now dynamically generated based on the lights connected to your bridge).  |
+| Configuration options        | Having a config file to control user-specific needs.                                                                          | Initial work is done.                                                                                                                |
+| Plug support                 | Re-adding TP-Link Kasa plus support.                                                                                          | Hasn't started yet.                                                                                                                  |
 
 
 ### Current Version
