@@ -31,6 +31,10 @@ function getTime() {
 
     var curTime = hrs + ':' + min + ':' + secs;
     document.getElementById('time').innerHTML = curTime;
+
+    var curDate = time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear();
+    document.getElementById('date').innerHTML = curDate;
+
     setTimeout(getTime, 500);
 }
 
@@ -96,7 +100,7 @@ function getUVLatLong(position) {
         url: 'https://api.openuv.io/api/v1/uv?lat=' + position.coords.latitude + '&lng=' + position.coords.longitude,
         success: function (response) {
             console.log(response.result.value)
-            document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ' (up to ' + parseFloat(response.result.uv_max).toFixed(1) + ')';
+            document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ', max. ' + parseFloat(response.result.uv_max).toFixed(1);
         },
         error: function (response) {
             document.getElementById('uv').innerHTML = 'N/A';
