@@ -46,6 +46,7 @@ function getWeather() {
         url: weatherURL,
         datatype: 'json',
         success: function (json) {
+            console.log(json)
             temp = Math.round(json.main.temp);
             conds = json.weather[0].main;
 
@@ -125,13 +126,29 @@ function toggleLight(status, name) {
     }
 }
 
+function toggleAllPlugs(status) {
+    if (status == 'True') {
+        $.ajax({ type: 'GET', url: '/allPlugs/True' });
+    } else {
+        $.ajax({ type: 'GET', url: '/allPlugs/False' });
+    }
+}
+
+function togglePlug(status, name) {
+    if (status == 'True') {
+        $.ajax({ type: 'GET', url: '/plug/True/' + name });
+    } else {
+        $.ajax({ type: 'GET', url: '/plug/False/' + name });
+    }
+}
 
 $(document).ready(function () {
-    $.getJSON("/static/config.json", function (data) {
+    $.getJSON("../static/config.json", function (data) {
         $.each(data, function (key, val) {
             switch (key) {
                 case 'owAPI_key':
                     owKey = val;
+                    console.log(owKey)
                     break;
                 case 'ow_loc':
                     weatherCity = val;

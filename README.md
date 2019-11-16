@@ -1,6 +1,6 @@
 # Pi SmartScreen
 
-A simple smart home and info display for the Raspberry Pi. Right now, you can control Philips Hue lights, TP-Link plugs and get time, weather (anywhere) and UV info (Australia only right now).
+A simple smart home and info display for the Raspberry Pi. Right now, you can control Philips Hue lights, TP-Link plugs and get time, weather (anywhere) and UV info (Australia only right now; UV observations courtesy of ARPANSA).
 
 ![](screenshot.png)
 
@@ -48,6 +48,7 @@ With this setup, your screen will stay on forever. You'll want to install a scre
 
 ### Config
 
+#### static/config.json
 This configuration file allows you to set up some custom settings to set the screen up for your needs. More configuration coming but what's below works as of now. All of these only work for v2 as of now.
 
 | Key            | Value                      | Description/Note                                                                                                                     |
@@ -58,6 +59,13 @@ This configuration file allows you to set up some custom settings to set the scr
 | ouvAPI_key     | API Key (string)           | This gives you access to OpenUV data. See [here](https://www.openuv.io/) for more information about getting the key.                 |
 
 NOTE: I'm not convinced that OpenWeather and OpenUV are super accurate (eg. ARPANSA data values in Australia are not the same as OpenUV data and the former is a more authoritative source). So, the data providers may change. In the meantime, this opens up the app to all people and provides, at the least, an approximate set of weather and UV data points.
+
+#### /config
+| Key            | Value                      | Description/Note                                                                                                                     |
+| -------------- |:--------------------------:| ------------------------------------------------------------------------------------------------------------------------------------:|
+| lights -> enabled     | `True` or `False`           | Enable or disable the light control functionality.      |
+| lights -> bridge_address     | IP Address of the Philips Hue Bridge           | The IP address of the Philips Hue bridge. If you don't know what this is, open up the Philips Hue app -> Settings -> Hue Bridges -> Info icon -> IP Address.      |
+| plugs -> enabled     | `True` or `False`           | Enable or disable the plug control functionality.      |
 
 ### Testing
 

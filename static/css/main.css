@@ -38,3 +38,8 @@ body {
     outline: none !important;
     box-shadow: none;
 }
+
+.list-group-item {
+    background-color: #33383e;
+    color: white;
+}

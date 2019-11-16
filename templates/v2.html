@@ -46,15 +46,20 @@
     <div class="row">
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="lightsList" data-toggle="list"
+                {% if lightsEnabled == 'True' %}
+                <a class="list-group-item list-group-item-action" id="lightsList" data-toggle="list"
                     href="#lightsListData" role="tab" aria-controls="home">Lights</a>
+                {% endif %}
+                {% if plugsEnabled == 'True' %}
                 <a class="list-group-item list-group-item-action" id="plugsList" data-toggle="list"
                     href="#plugsListData" role="tab" aria-controls="profile">Plugs</a>
+                {% endif %}
             </div>
         </div>
         <div class="col-8">
             <div class="tab-content" id="tabContent">
 
+                {% if lightsEnabled == 'True' %}
                 <!-- Lights toggle panel -->
                 <div class="tab-pane fade show active" id="lightsListData" role="tabpanel" aria-labelledby="lightsList">
                     <div class='card text-white bg-dark mb-3'>
@@ -102,7 +107,9 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
+                {% if plugsEnabled == 'True' %}
                 <!-- Plugs toggle panel -->
                 <div class="tab-pane fade show" id="plugsListData" role="tabpanel" aria-labelledby="plugsList">
                     <div class='card text-white bg-dark mb-3'>
@@ -116,9 +123,9 @@
                                         <div class='col-sm-3' style='float: right;'>
                                             <div class='btn-group' role='group'>
                                                 <button class='btn btn-secondary'
-                                                    onclick='toggleAllLights("True");'>On</button>
+                                                    onclick='toggleAllPlugs("True");'>On</button>
                                                 <button class='btn btn-secondary'
-                                                    onclick='toggleAllLights("False");'>Off</button>
+                                                    onclick='toggleAllPlugs("False");'>Off</button>
                                             </div>
                                         </div>
                                     </div>
@@ -129,13 +136,29 @@
                             <p class='card-text'>
                                 <div class='container'>
                                     <div class='row'>
-                                        Under construction.
+
+                                        {% for plug in plugs %}
+                                        <div class='col-sm'>
+                                            <center>
+                                                <h5>{{ plug[0] }}</h5>
+                                                <p></p>
+                                                <div class='btn-group' role='group'>
+                                                    <button class='btn btn-secondary'
+                                                        onclick='togglePlug("True", "{{ plug[0] }}");'>On</button>
+                                                    <button class='btn btn-secondary'
+                                                        onclick='togglePlug("False", "{{ plug[0] }}");'>Off</button>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </p>
                         </div>
                     </div>
+                    </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
