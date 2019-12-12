@@ -22,16 +22,20 @@
 <body>
     <div class='container'>
         <div class='row'>
-            <div class='col-9'>
+            <div class='col-8'>
                 <h1 class='display-1' id='time'></h1>
             </div>
-            <div class='col-3'>
+            <div class='col-4'>
                 <center>
-                    <span class='smallInfo align-middle' id='weather'></span>
-                    <br \>
-                    <span class='smallInfo align-middle' id='uv'></span>
-                    <p id='weatherUpdateDate' class='verySmallInfo'></p>
-                    <button class='btn btn-secondary'>Test</button>
+                    <div class="alert alert-dark" role="alert"
+                        style="background-color: #6c757c; border-color: #6c757c; color: white;">
+                        <span class="lead" id='date'></span>
+                        <br \>
+                        <span class='smallInfo align-middle' id='weather'>...</span>
+                        <br \>
+                        <span class='smallInfo align-middle' id='uv'>...</span>
+                        <p id='weatherUpdateDate' class='verySmallInfo'></p>
+                    </div>
                 </center>
             </div>
         </div>
@@ -40,17 +44,25 @@
     <p class='spacer'></p>
 
     <div class="row">
-        <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="lightsList" data-toggle="list"
-                    href="#lightsListData" role="tab" aria-controls="home">Lights</a>
-                <a class="list-group-item list-group-item-action" id="plugsList" data-toggle="list"
-                    href="#plugsListData" role="tab" aria-controls="profile">Plugs</a>
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                {% if lightsEnabled == 'True' %}
+                <a class="nav-link text-white" id="v-pills-lights-tab" data-toggle="pill" href="#v-pills-lights"
+                    role="tab" aria-controls="v-pills-lights" aria-selected="true">Lights</a>
+                {% endif %}
+                {% if plugsEnabled == 'True' %}
+                <a class="nav-link text-white" id="v-pills-plugs-tab" data-toggle="pill" href="#v-pills-plugs"
+                    role="tab" aria-controls="v-pills-plugs" aria-selected="false">Plugs</a>
+                {% endif %}
+                <a class="nav-link text-white" id="v-pills-news-tab" data-toggle="pill" href="#v-pills-news" role="tab"
+                    aria-controls="v-pills-news" aria-selected="false">News</a>
             </div>
         </div>
-        <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="lightsListData" role="tabpanel" aria-labelledby="lightsList">
+        <div class="col-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                {% if lightsEnabled == 'True' %}
+                <div class="tab-pane fade show" id="v-pills-lights" role="tabpanel"
+                    aria-labelledby="v-pills-lights-tab">
                     <div class='card text-white bg-dark mb-3'>
                         <div class='card-header'>
                             <div class='grid'>
@@ -62,9 +74,9 @@
                                         <div class='col-sm-3' style='float: right;'>
                                             <div class='btn-group' role='group'>
                                                 <button class='btn btn-secondary'
-                                                    onclick='toggleAllLights("on");'>On</button>
+                                                    onclick='toggleAllLights("True");'>On</button>
                                                 <button class='btn btn-secondary'
-                                                    onclick='toggleAllLights("off");'>Off</button>
+                                                    onclick='toggleAllLights("False");'>Off</button>
                                             </div>
                                         </div>
                                     </div>
@@ -75,112 +87,93 @@
                             <p class='card-text'>
                                 <div class='container'>
                                     <div class='row'>
+
+                                        {% for light in lights %}
                                         <div class='col-sm'>
                                             <center>
-                                                <h5>Bedroom</h5>
+                                                <h5 class="lead">{{ light }}</h5>
                                                 <p></p>
                                                 <div class='btn-group' role='group'>
                                                     <button class='btn btn-secondary'
-                                                        onclick='toggleBedroomLight("on");'>On</button>
+                                                        onclick='toggleLight("True", "{{ light }}");'>On</button>
                                                     <button class='btn btn-secondary'
-                                                        onclick='toggleBedroomLight("off");'>Off</button>
+                                                        onclick='toggleLight("False", "{{ light }}");'>Off</button>
                                                 </div>
                                             </center>
                                         </div>
-                                        <div class='col-sm'>
-                                            <center>
-                                                <h5>Desk Lamp</h5>
-                                                <p></p>
-                                                <div class='btn-group' role='group'>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='toggleDeskLampLight("on");'>On</button>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='toggleDeskLampLight("off");'>Off</button>
-                                                </div>
-                                            </center>
-                                        </div>
-                                        <div class='col-sm'>
-                                            <center>
-                                                <h5>Front Hall</h5>
-                                                <p></p>
-                                                <div class='btn-group' role='group'>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='toggleFrontHallLight("on");'>On</button>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='toggleFrontHallLight("off");'>Off</button>
-                                                </div>
-                                            </center>
-                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="plugsListData" role="tabpanel" aria-labelledby="plugsList">
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="lightsListData" role="tabpanel"
-                            aria-labelledby="lightsList">
-                            <div class='card text-white bg-dark mb-3'>
-                                <div class='card-header'>
-                                    <div class='grid'>
-                                        <div class='row'>
-                                            <div class='col-sm-3 lead'>
-                                                Master
-                                            </div>
-                                            <div class='col-sm-8'>
-                                                <div class='col-sm-3' style='float: right;'>
-                                                    <div class='btn-group' role='group'>
-                                                        <button class='btn btn-secondary'
-                                                            onclick='toggleAllSwitches("on");'>On</button>
-                                                        <button class='btn btn-secondary'
-                                                            onclick='toggleAllSwitches("off");'>Off</button>
-                                                    </div>
-                                                </div>
+                {% endif %}
+                {% if plugsEnabled == 'True' %}
+                <div class="tab-pane fade" id="v-pills-plugs" role="tabpanel" aria-labelledby="v-pills-plugs-tab">
+                    <div class='card text-white bg-dark mb-3'>
+                        <div class='card-header'>
+                            <div class='grid'>
+                                <div class='row'>
+                                    <div class='col-sm-3 lead'>
+                                        Master
+                                    </div>
+                                    <div class='col-sm-8'>
+                                        <div class='col-sm-3' style='float: right;'>
+                                            <div class='btn-group' role='group'>
+                                                <button class='btn btn-secondary'
+                                                    onclick='toggleAllPlugs("True");'>On</button>
+                                                <button class='btn btn-secondary'
+                                                    onclick='toggleAllPlugs("False");'>Off</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class='card-body'>
-                                    <p class='card-text'>
-                                        <div class='container'>
-                                            <div class='row'>
-                                                <div class='col-sm'>
-                                                    <center>
-                                                        <h5>Fan</h5>
-                                                        <p></p>
-                                                        <div class='btn-group' role='group'>
-                                                            <button class='btn btn-secondary'
-                                                                onclick='toggleFanSwitch("on");'>On</button>
-                                                            <button class='btn btn-secondary'
-                                                                onclick='toggleFanSwitch("off");'>Off</button>
-                                                        </div>
-                                                    </center>
-                                                </div>
-                                                <div class='col-sm'>
-                                                    <center>
-                                                        <h5>Dehumidifer</h5>
-                                                        <p></p>
-                                                        <div class='btn-group' role='group'>
-                                                            <button class='btn btn-secondary'
-                                                                onclick='toggleDehumidSwitch("on");'>On</button>
-                                                            <button class='btn btn-secondary'
-                                                                onclick='toggleDehumidSwitch("off");'>Off</button>
-                                                        </div>
-                                                    </center>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </p>
-                                </div>
                             </div>
+                        </div>
+                        <div class='card-body'>
+                            <p class='card-text'>
+                                <div class='container'>
+                                    <div class='row'>
+
+                                        {% for plug in plugs %}
+                                        <div class='col-sm'>
+                                            <center>
+                                                <h5 class="lead">{{ plug }}</h5>
+                                                <p></p>
+                                                <div class='btn-group' role='group'>
+                                                    <button class='btn btn-secondary'
+                                                        onclick='togglePlug("True", "{{ plug }}");'>On</button>
+                                                    <button class='btn btn-secondary'
+                                                        onclick='togglePlug("False", "{{ plug }}");'>Off</button>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="tab-pane fade" id="v-pills-news" role="tabpanel" aria-labelledby="v-pills-news-tab">
+                    <div class='card text-white bg-dark mb-3'>
+                        <div id='newsTitle' class='card-header'>
+
+                        </div>
+                        <div class='card-body'>
+                            <p id='news' class='card-text'>
+
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-</body>
+    </div>
 
-<script src='static/js/main.js'></script>
+    <script src='static/js/main.js'></script>
+</body>
 
 </html>

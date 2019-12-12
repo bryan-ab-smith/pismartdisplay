@@ -1,133 +1,132 @@
-from flask import Flask, render_template
-from phue import Bridge
+# Stdlib imports
+from flask import Flask, render_template, jsonify
+import configparser
+import urllib.request
+import xml.etree.ElementTree as ET
 
-from pyHS100 import SmartPlug, Discover
+################## Configure block ##################
+
+config = configparser.ConfigParser()
+config.read('config')
+
+lights_enabled = config['lights']['enabled']
+
+# This is the IP address of your Philips Hue bridge.
+bridge_addr = config['lights']['bridge_address']
+
+plugs_enabled = config['plugs']['enabled']
+
+################## End of configure block ##################
+
+# External imports
+if lights_enabled == 'True':
+    from phue import Bridge
+if plugs_enabled == 'True':
+    from pyHS100 import SmartPlug, Discover
 
 app = Flask(__name__)
 
-plugs = {}
+if lights_enabled == 'True':
+    # Set up the bridge object.
+    bridge_obj = Bridge(bridge_addr)
 
+    # Connect to the bridge
+    bridge_obj.connect()
+
+    # Get the api.
+    bridge_obj.get_api()
+
+plugList = {}
+
+# Index route. Here, we send device information to the index template.
 @app.route('/')
 def index():
-    for device in Discover.discover().keys():
-        plugs[Discover.discover_single(device).alias] = device
-    return render_template('index.html')
 
-@app.route('/bedroomLightOn')
-def bedroomLightOn():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
+    lights = []
 
-    bridge.set_light('Bedroom', 'on', True)
-    return 'Hi!'
+    if lights_enabled == 'True':
+        # This gets the Philips Hue light info.
+        # For each of the ligths available via the bridge, add it to the list of lights available.
+        for light in bridge_obj.lights:
+            # Append the light to the list.
+            lights.append(light.name)
 
-@app.route('/bedroomLightOff')
-def bedroomLightOff():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
+    if plugs_enabled == 'True':
+        # This gets the TP-Link Kasa device info.
+        # For each of the plugs available add it to the list of plugs.
+        # Structure of plug list: [ 'name of light', 'ip address' ]
+        for device in Discover.discover().keys():
+            plugList[Discover.discover_single(device).alias] = device
+            #plugs.append([Discover.discover_single(device).alias, device])
 
-    bridge.set_light('Bedroom', 'on', False)
-    return 'Hi!'
+    # Render the homepage.
+    return render_template('index.html',
+                           lightsEnabled=lights_enabled,
+                           plugsEnabled=plugs_enabled,
+                           lights=lights,
+                           plugs=plugList)
 
-@app.route('/deskLampLightOn')
-def deskLampOn():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
 
-    bridge.set_light('Living Room Lamp', 'on', True)
-    return 'Hi!'
+@app.route('/news')
+def getNews():
+    feedReq = urllib.request.urlopen('https://www.sbs.com.au/news/feed')
+    feed = feedReq.read()
+    doc = ET.fromstring(feed)
 
-@app.route('/deskLampLightOff')
-def deskLampOff():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
+    arts = doc.findall('channel/item/title')
+    descs = doc.findall('channel/item/description')
 
-    bridge.set_light('Living Room Lamp', 'on', False)
-    return 'Hi!'
+    news = [arts[0].text, descs[0].text, arts[1].text,
+            descs[1].text, arts[2].text, descs[2].text]
+    return jsonify(news)
 
-@app.route('/frontHallLightOn')
-def frontHallLampOn():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
 
-    bridge.set_light('Front Hall', 'on', True)
-    return 'Hi!'
+@app.route('/light/<status>/<name>')
+def toggleLight(status, name):
+    if status == 'False':
+        bridge_obj.set_light(name, 'on', False)
+    else:
+        bridge_obj.set_light(name, 'on', True)
+    return 'hi!'
 
-@app.route('/frontHallLightOff')
-def frontHallLampOff():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
 
-    bridge.set_light('Front Hall', 'on', False)
-    return 'Hi!'
+@app.route('/allLights/<status>')
+def toggleAllLights(status):
+    if status == 'False':
+        for light in bridge_obj.lights:
+            bridge_obj.set_light(light.name, 'on', False)
+    else:
+        for light in bridge_obj.lights:
+            bridge_obj.set_light(light.name, 'on', True)
+    return 'hi!'
 
-@app.route('/allLightsOn')
-def allLightsOn():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
 
-    for light in bridge.lights:
-        bridge.set_light(light.name, 'on', True)
-    return 'Hi!'
+@app.route('/allPlugs/<status>')
+def toggleAllSwitches(status):
+    '''for device in Discover.discover().keys():
+        plugs[Discover.discover_single(device).alias] = device'''
+    if status == 'False':
+        for devices in plugList.keys():
+            plug = SmartPlug(plugList[devices])
+            plug.turn_off()
+    else:
+        for devices in plugList.keys():
+            plug = SmartPlug(plugList[devices])
+            plug.turn_on()
+    return 'Plugs toggled!'
 
-@app.route('/allLightsOff')
-def allLightsOff():
-    bridge = Bridge('192.168.0.2')
-    bridge.connect()
-    bridge.get_api()
 
-    for light in bridge.lights:
-        bridge.set_light(light.name, 'on', False)
-    return 'Hi!'
+@app.route('/plug/<status>/<name>')
+def togglePlug(status, name):
 
-@app.route('/fanSwitchOn')
-def fanSwitchOn():
-    plug = SmartPlug(plugs['Fan'])
-    plug.turn_on()
-    return 'Hi!'
+    if status == 'False':
+        plug = SmartPlug(plugList[name])
+        plug.turn_off()
+    else:
+        plug = SmartPlug(plugList[name])
+        plug.turn_on()
+    return 'hi!'
 
-@app.route('/fanSwitchOff')
-def fanSwitchOff():
-    plug = SmartPlug(plugs['Fan'])
-    plug.turn_off()
-    return 'Hi!'
-
-@app.route('/dehumidSwitchOn')
-def dehumidSwitchOn():
-    plug = SmartPlug(plugs['Dehumidifier'])
-    plug.turn_on()
-    return 'Hi!'
-
-@app.route('/dehumidSwitchOff')
-def dehumidSwitchOff():
-    plug = SmartPlug(plugs['Dehumidifier'])
-    plug.turn_off()
-    return 'Hi!'
-
-@app.route('/allSwitchesOn')
-def allSwitchesOn():
-    dehumid = SmartPlug(plugs['Fan'])
-    dehumid.turn_on()
-
-    fan = SmartPlug(plugs['Dehumidifier'])
-    fan.turn_on()
-    return 'Hi!'
-
-@app.route('/allSwitchesOff')
-def allSwitchesOff():
-    dehumid = SmartPlug(plugs['Fan'])
-    dehumid.turn_off()
-
-    fan = SmartPlug(plugs['Dehumidifier'])
-    fan.turn_off()
-    return 'Hi!'
 
 if __name__ == '__main__':
     app.debug = True

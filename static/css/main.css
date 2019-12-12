@@ -1,11 +1,16 @@
+html {
+    overflow: hidden;
+}
+
 /*
-    Set the background colour of the page to a drak grey and the text to white.
+    Set the background colour of the page to a dark grey and the text to white.
     Create a margin for the page.
 */
 body {
     background-color: rgb(33, 37, 41);
     color: white;
     margin: 5%;
+    overflow: hidden;
 }
 
 .spacer {
@@ -42,4 +47,8 @@ body {
 .list-group-item {
     background-color: #33383e;
     color: white;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show >.nav-link {
+    background-color: #6c757c;
 }
