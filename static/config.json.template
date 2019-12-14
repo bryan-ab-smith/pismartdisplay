@@ -2,5 +2,9 @@
     "owAPI_key": "",
     "ow_loc": "",
     "ow_units": "",
-    "ouvAPI_key": ""
+    "ouvAPI_key": "",
+    "lights_enabled": "",
+    "bridge_address": "",
+    "plugs_enabled": "",
+    "news_feed": ""
 }

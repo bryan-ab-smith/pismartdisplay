@@ -1,4 +1,4 @@
-# Pi SmartScreen
+# PiSmartDisplay
 
 A simple smart home and info display for the Raspberry Pi. Right now, you can:
 - Control Philips Hue lights
@@ -57,21 +57,21 @@ The following is courtesy of and based on Die Antwort's ([source](https://die-an
 
     Change the timeout to however long you want the screen to stay on before the blank screensaver kicks in.
 
-Nothing will work quite yet; restarting the Pi will result in the smartscreen opening up a blank Chromium window, in kiosk mode, that loads a failed page. Follow the next set of instructions to get the app up and running.
+Nothing will work quite yet; restarting the Pi will result in the smart display opening up a blank Chromium window, in kiosk mode, that loads a failed page. Follow the next set of instructions to get the app up and running.
 
 It's best, I would suggest, to restart the Pi at this point to make sure that you've got the "foundation" up and running. In other words, check to make sure that a reboot results in a fullscreen (kiosk mode) Chromium window opening to a broken/not found page.
 
-### PiSmartScreen Setup
+### PiSmartDisplay Setup
 
 1. Clone code:
 
-    `git clone https://github.com/bryan-ab-smith/pismartscreen.git`
+    `git clone https://github.com/bryan-ab-smith/pismartdisplay.git`
 
-2. Edit smartscreen.service and change:
+2. Edit smartdisplay.service and change:
 
     a. User to the user that you have starting and autolgging in at boot.
 
-    b. WorkingDirectory to the directory where the smartscreen code is stored.
+    b. WorkingDirectory to the directory where the smart display code is stored.
 
 3. Install the Python modules required:
 
@@ -83,13 +83,13 @@ It's best, I would suggest, to restart the Pi at this point to make sure that yo
 
     See Config section below to edit the files.
 
-5. Copy smartscreen service to /etc/systemd/system/ and enable the service:
+5. Copy smart display service to /etc/systemd/system/ and enable the service:
 
-    `sudo cp smartscreen.service /etc/systemd/system`
+    `sudo cp smartdisplay.service /etc/systemd/system`
     
-    `sudo systemctl enable smartscreen`
+    `sudo systemctl enable smartdisplay`
 
-6. If you want to test things at this point, go to _http://HOSTNAME.local_ from a different device (where HOSTNAME is the hostname of your smartscreen). If that works, you should be good to go.
+6. If you want to test things at this point, go to _http://HOSTNAME.local_ from a different device (where HOSTNAME is the hostname of your smart display). If that works, you should be good to go.
 
 7. Reboot the Pi:
 
@@ -101,7 +101,7 @@ It's best, I would suggest, to restart the Pi at this point to make sure that yo
 ## Config
 
 ### static/config.json
-This configuration file allows you to set up some custom settings to set the screen up for your needs. More configuration coming but what's below works as of now.
+This configuration file allows you to set up some custom settings to set the smart display up for your needs. More configuration coming but what's below works as of now.
 
 | Key            | Value                      | Description/Note                                                                                                                     |
 | -------------- |:--------------------------:| ------------------------------------------------------------------------------------------------------------------------------------:|
