@@ -88,7 +88,7 @@ function getWeather() {
 
 
 function getUVLatLong(position) {
-    //uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + position.coords.latitude + '&lon=-' + position.coords.longitude + '&appid=' + owKey;
+    // https://www.openuv.io/uvindex
     $.ajax({
         type: 'GET',
         dataType: 'json',
