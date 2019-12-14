@@ -1,3 +1,4 @@
 static/config.json
-config
 old/
+testground.py
+deploy.sh

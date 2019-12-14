@@ -83,12 +83,12 @@ function getWeather() {
     var curTime = hrs + ':' + min + ':' + secs;
 
     document.getElementById('weatherUpdateDate').innerHTML = 'Last update: ' + curTime;
-    setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here.
+    setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here to ensure no limiting.
 }
 
 
 function getUVLatLong(position) {
-    uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + position.coords.latitude + '&lon=-' + position.coords.longitude + '&appid=' + owKey;
+    //uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + position.coords.latitude + '&lon=-' + position.coords.longitude + '&appid=' + owKey;
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -97,7 +97,6 @@ function getUVLatLong(position) {
         },
         url: 'https://api.openuv.io/api/v1/uv?lat=' + position.coords.latitude + '&lng=' + position.coords.longitude,
         success: function (response) {
-            console.log(response.result.value)
             document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ', max. ' + parseFloat(response.result.uv_max).toFixed(1);
         },
         error: function (response) {
@@ -139,7 +138,7 @@ function getNews() {
             }
 
             var curTime = hrs + ':' + min + ':' + secs;
-            document.getElementById('newsTitle').innerHTML = 'News (as of ' + curTime + ')';
+            document.getElementById('newsTitle').innerHTML = 'Top Headlines (as of ' + curTime + ')';
             document.getElementById('news').innerHTML = response[0] + '<br \\>' + '<small>' + response[1] + '</small><p></p>' + response[2] + '<br \\>' + '<small>' + response[3] + '</small><p></p>' + response[4] + '<br \\>' + '<small>' + response[5] + '</small><p></p>';
             //document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ', max. ' + parseFloat(response.result.uv_max).toFixed(1);
         },
@@ -182,6 +181,11 @@ function togglePlug(status, name) {
     } else {
         $.ajax({ type: 'GET', url: '/plug/False/' + name });
     }
+}
+
+function reboot() {
+    console.log('Rebooting...');
+    $.ajax({ type: 'GET', url: '/reboot' });
 }
 
 $(document).ready(function () {

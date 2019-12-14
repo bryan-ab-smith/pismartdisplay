@@ -4,6 +4,10 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- https://stackoverflow.com/a/42583775 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -56,6 +60,8 @@
                 {% endif %}
                 <a class="nav-link text-white" id="v-pills-news-tab" data-toggle="pill" href="#v-pills-news" role="tab"
                     aria-controls="v-pills-news" aria-selected="false">News</a>
+                <a class="nav-link text-white" id="v-pills-system-tab" data-toggle="pill" href="#v-pills-system"
+                    role="tab" aria-controls="v-pills-system" aria-selected="false">System</a>
             </div>
         </div>
         <div class="col-9">
@@ -68,7 +74,7 @@
                             <div class='grid'>
                                 <div class='row'>
                                     <div class='col-sm-3 lead'>
-                                        Master
+                                        Lights
                                     </div>
                                     <div class='col-sm-8'>
                                         <div class='col-sm-3' style='float: right;'>
@@ -91,7 +97,7 @@
                                         {% for light in lights %}
                                         <div class='col-sm'>
                                             <center>
-                                                <h5 class="lead">{{ light }}</h5>
+                                                <h6>{{ light }}</h6>
                                                 <p></p>
                                                 <div class='btn-group' role='group'>
                                                     <button class='btn btn-secondary'
@@ -116,7 +122,7 @@
                             <div class='grid'>
                                 <div class='row'>
                                     <div class='col-sm-3 lead'>
-                                        Master
+                                        Plugs
                                     </div>
                                     <div class='col-sm-8'>
                                         <div class='col-sm-3' style='float: right;'>
@@ -139,7 +145,7 @@
                                         {% for plug in plugs %}
                                         <div class='col-sm'>
                                             <center>
-                                                <h5 class="lead">{{ plug }}</h5>
+                                                <h6>{{ plug }}</h6>
                                                 <p></p>
                                                 <div class='btn-group' role='group'>
                                                     <button class='btn btn-secondary'
@@ -159,15 +165,55 @@
                 {% endif %}
                 <div class="tab-pane fade" id="v-pills-news" role="tabpanel" aria-labelledby="v-pills-news-tab">
                     <div class='card text-white bg-dark mb-3'>
-                        <div id='newsTitle' class='card-header'>
+                        <div id='newsTitle' class='card-header lead'>
 
                         </div>
-                        <div class='card-body'>
+                        <div id='newsBody' class='card-body'>
                             <p id='news' class='card-text'>
 
                             </p>
                         </div>
                     </div>
+                </div>
+
+                <!-- System Panel -->
+                <div class="tab-pane fade" id="v-pills-system" role="tabpanel" aria-labelledby="v-pills-system-tab">
+                    <div class='card text-white bg-dark mb-3'>
+                        <div class='card-header lead'>
+                            System
+                        </div>
+                        <div class='card-body'>
+                            <div class='container'>
+                                <div class='row'>
+                                    <div class='col-md'>
+                                        <p class='lead'>Boot Time</p>
+                                        <p>{{ bootTime }}</p>
+                                    </div>
+                                    <div class='col-md'>
+                                        <button type="button" class="btn btn-info"
+                                            onclick='location.reload(true);'>Refresh</button>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#rebootModal">Restart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id='rebootModal' tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <p>Are you sure that you want to restart?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" onclick='reboot();'>Restart</button>
                 </div>
             </div>
         </div>

@@ -1,12 +1,30 @@
 # Stdlib imports
+import psutil
+import datetime
 from flask import Flask, render_template, jsonify
 import configparser
 import urllib.request
 import xml.etree.ElementTree as ET
+import subprocess
+import json
 
 ################## Configure block ##################
 
-config = configparser.ConfigParser()
+lights_enabled = ''
+bridge_addr = ''
+plugs_enabled = ''
+news_feed = ''
+
+configFile = 'static/config.json'
+
+with open(configFile) as jsonFile:
+    data = json.load(jsonFile)
+    lights_enabled = data['lights_enabled']
+    bridge_addr = data['bridge_address']
+    plugs_enabled = data['plugs_enabled']
+    news_feed = data['news_feed']
+
+'''config = configparser.ConfigParser()
 config.read('config')
 
 lights_enabled = config['lights']['enabled']
@@ -15,6 +33,8 @@ lights_enabled = config['lights']['enabled']
 bridge_addr = config['lights']['bridge_address']
 
 plugs_enabled = config['plugs']['enabled']
+
+news_feed = config['news']['feed']'''
 
 ################## End of configure block ##################
 
@@ -59,17 +79,27 @@ def index():
             plugList[Discover.discover_single(device).alias] = device
             #plugs.append([Discover.discover_single(device).alias, device])
 
+    # Get the boot time.
+    # Source: https://github.com/SlapBot/stephanie-va/blob/master/Stephanie/Modules/system_module.py
+    bootSeconds = psutil.boot_time()
+    # Convert it to a datetime
+    upSince = datetime.datetime.fromtimestamp(bootSeconds)
+
+    # String format the datetime.
+    bootTime = upSince.strftime('%a %b %d, %Y at %H:%M:%S')
+
     # Render the homepage.
     return render_template('index.html',
                            lightsEnabled=lights_enabled,
                            plugsEnabled=plugs_enabled,
                            lights=lights,
-                           plugs=plugList)
+                           plugs=plugList,
+                           bootTime=bootTime)
 
 
 @app.route('/news')
 def getNews():
-    feedReq = urllib.request.urlopen('https://www.sbs.com.au/news/feed')
+    feedReq = urllib.request.urlopen(news_feed)
     feed = feedReq.read()
     doc = ET.fromstring(feed)
 
@@ -126,6 +156,11 @@ def togglePlug(status, name):
         plug = SmartPlug(plugList[name])
         plug.turn_on()
     return 'hi!'
+
+
+@app.route('/reboot')
+def rebootDevice():
+    subprocess.Popen('sudo reboot', shell=True)
 
 
 if __name__ == '__main__':
