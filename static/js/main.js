@@ -189,6 +189,7 @@ function reboot() {
 }
 
 $(document).ready(function () {
+    // https://api.jquery.com/jQuery.getJSON/
     $.getJSON("../static/config.json", function (data) {
         $.each(data, function (key, val) {
             switch (key) {

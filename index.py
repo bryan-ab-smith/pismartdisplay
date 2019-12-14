@@ -24,18 +24,6 @@ with open(configFile) as jsonFile:
     plugs_enabled = data['plugs_enabled']
     news_feed = data['news_feed']
 
-'''config = configparser.ConfigParser()
-config.read('config')
-
-lights_enabled = config['lights']['enabled']
-
-# This is the IP address of your Philips Hue bridge.
-bridge_addr = config['lights']['bridge_address']
-
-plugs_enabled = config['plugs']['enabled']
-
-news_feed = config['news']['feed']'''
-
 ################## End of configure block ##################
 
 # External imports
@@ -47,6 +35,7 @@ if plugs_enabled == 'True':
 app = Flask(__name__)
 
 if lights_enabled == 'True':
+    # https://github.com/studioimaginaire/phue
     # Set up the bridge object.
     bridge_obj = Bridge(bridge_addr)
 
@@ -72,6 +61,7 @@ def index():
             lights.append(light.name)
 
     if plugs_enabled == 'True':
+        # https://github.com/GadgetReactor/pyHS100
         # This gets the TP-Link Kasa device info.
         # For each of the plugs available add it to the list of plugs.
         # Structure of plug list: [ 'name of light', 'ip address' ]
