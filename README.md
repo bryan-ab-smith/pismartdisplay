@@ -113,6 +113,9 @@ This configuration file allows you to set up some custom settings to set the sma
 | bridge_address     | IP Address of the Philips Hue Bridge           | The IP address of the Philips Hue bridge. If you don't know what this is, open up the Philips Hue app -> Settings -> Hue Bridges -> Info icon -> IP Address.      |
 | plugs_enabled     | `True` or `False`           | Enable or disable the plug control functionality.      |
 | news_feed     | URL to a news feed.           | The news feed to show in the news section. A few top stories feeds are provided in the comments for the config file (SBS (Australia), CBC (Canada), BBC (UK), CNN (USA)).      |
+| lat     | Latitude of your current location.           | ---      |
+| lng     | Longitude of your current location.           | ---      |
+| hereAPI_key     | Get the city that you're in (based on lat/lng).           | You need to get an API key from [here](https://developer.here.com/). This functionality is disabled because it's not all that helpful but here if you want it.      |
 
 NOTE: I'm not convinced that OpenWeather and OpenUV are super accurate (eg. ARPANSA data values in Australia are not the same as OpenUV data and the former is a more authoritative source). So, the data providers may change. In the meantime, this opens up the app to all people and provides, at the least, an approximate set of weather and UV data points.
 

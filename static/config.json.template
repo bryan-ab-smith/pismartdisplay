@@ -6,5 +6,8 @@
     "lights_enabled": "",
     "bridge_address": "",
     "plugs_enabled": "",
-    "news_feed": ""
+    "news_feed": "",
+    "lat": "",
+    "lng": "",
+    "hereAPI_key": ""
 }

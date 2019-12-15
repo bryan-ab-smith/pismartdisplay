@@ -4,6 +4,11 @@ var tempUnit = ''
 
 var ouvKey = ''
 
+var lat = ''
+var lng = ''
+
+var hereAPI_key = ''
+
 function getTime() {
     var time = new Date();
 
@@ -52,9 +57,12 @@ function getWeather() {
         }
     });
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getUVLatLong)
-    }
+    /*if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getUVLatLong, posError, {
+            timeout: 30000,
+            enableHighAccuracy: true
+        })
+    }*/
 
     var time = new Date();
 
@@ -84,10 +92,14 @@ function getWeather() {
 
     document.getElementById('weatherUpdateDate').innerHTML = 'Last update: ' + curTime;
     setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here to ensure no limiting.
+    setTimeout(getUVLatLong, 1800000);
 }
 
+/*function posError(err) {
+    console.log(err.message)
+}*/
 
-function getUVLatLong(position) {
+function getUVLatLong() {
     // https://www.openuv.io/uvindex
     $.ajax({
         type: 'GET',
@@ -95,7 +107,7 @@ function getUVLatLong(position) {
         beforeSend: function (request) {
             request.setRequestHeader('x-access-token', ouvKey);
         },
-        url: 'https://api.openuv.io/api/v1/uv?lat=' + position.coords.latitude + '&lng=' + position.coords.longitude,
+        url: 'https://api.openuv.io/api/v1/uv?lat=' + lat + '&lng=' + lng,
         success: function (response) {
             document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ', max. ' + parseFloat(response.result.uv_max).toFixed(1);
         },
@@ -104,6 +116,28 @@ function getUVLatLong(position) {
             document.getElementById('uv').innerHTML = 'N/A';
         }
     });
+}
+
+function getCity() {
+    var platform = new H.service.Platform({
+        'apikey': hereAPI_key
+    });
+
+    // https://developer.here.com/api-explorer/rest/geocoder/reverse-geocode
+    var geocoder = platform.getGeocodingService(),
+        parameters = {
+            prox: lat + ',' + lng,
+            mode: 'retrieveAddresses',
+            maxresults: '1',
+            gen: '9'
+        };
+
+    geocoder.reverseGeocode(parameters,
+        function (result) {
+            document.getElementById('location').innerHTML = result.Response.View[0].Result[0].Location.Address.City;
+        }, function (error) {
+            document.getElementById('location').innerHTML = 'Error.';
+        });
 }
 
 function getNews() {
@@ -205,12 +239,25 @@ $(document).ready(function () {
                 case 'ouvAPI_key':
                     ouvKey = val;
                     break;
+                case 'lat':
+                    lat = val;
+                    break;
+                case 'lng':
+                    lng = val;
+                    break;
+                case 'hereAPI_key':
+                    hereAPI_key = val;
+                    break;
             }
         });
     }).done(function () {
         getTime();
 
         getWeather();
+
+        getUVLatLong();
+
+        //getCity();
 
         getNews();
     });
