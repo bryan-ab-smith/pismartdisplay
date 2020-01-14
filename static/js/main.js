@@ -37,7 +37,7 @@ function getTime() {
     var curTime = hrs + ':' + min + ':' + secs;
     document.getElementById('time').innerHTML = curTime;
 
-    var curDate = time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear();
+    var curDate = time.getDate() + '/' + time.getMonth() + 1 + '/' + time.getFullYear();
     document.getElementById('date').innerHTML = curDate;
 
     setTimeout(getTime, 500);
