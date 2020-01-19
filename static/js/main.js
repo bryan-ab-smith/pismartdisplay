@@ -95,6 +95,36 @@ function getWeather() {
     setTimeout(getUVLatLong, 1800000);
 }
 
+function getForecastData() {
+    var req = new XMLHttpRequest();
+
+    req.open('GET', 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lng + '&units=metric&appid=' + owKey);
+    req.send();
+    req.onload = function () {
+        try {
+            var json = JSON.parse(req.responseText);
+
+            forecastString = '<dl class="row">'
+            for (var x = 0; x < 5; x++) {
+                // https://stackoverflow.com/a/847196
+                var date = new Date(json.list[x].dt * 1000);
+                var hour = date.getHours();
+                //forecastString += '<span class="subheading">' + Math.round(json.list[x].main.temp) + '&deg; (' + json.list[x].weather[0].main + ')</span><br \\><span class="smallHeading">' + hour + ':00</span><p></p>'
+                //forecastString += '<span class="subheading">' + Math.round(json.list[x].main.temp) + '&deg; (' + json.list[x].weather[0].main + ')</span><br \\><span class="smallHeading">As of ' + hour + ':00</span><p></p>'
+                //forecastString += 'At ' + hour + ':00, it will be ' + Math.round(json.list[x].main.temp) + '&deg; and ' + json.list[x].weather[0].main.toLowerCase() + '.<p></p>';
+                //forecastString += '<p></p><div class="container"><div class="row justify-content-center forecastTimeSpacer"><div class="col">' + hour + ':00</div></div class="col"></div><div class="container"><div class="row justify-content-center"><div class="col"><i class="material-icons iconHeader">nature</i><br \\>' + Math.round(json.list[x].main.temp) + '&deg;</div><div class="col"><i class="material-icons iconHeader">cloud_queue</i><br \\>' + json.list[x].weather[0].main + '</div></div></div><p></p>'
+                forecastString += '<dt class="col-sm-3">' + hour + ':00</dt><dd class="col-sm-9">' + Math.round(json.list[x].main.temp) + '&deg;, ' + json.list[x].weather[0].main + '</dd>'
+            }
+            forecastString += '</dl>'
+            console.log(forecastString);
+            document.getElementById('forecastBody').innerHTML = forecastString;
+        } catch (err) {
+            document.getElementById('forecast').innerHTML = '<i class="material-icons">error_outline</i>';
+        }
+    }
+}
+
+
 /*function posError(err) {
     console.log(err.message)
 }*/
@@ -257,7 +287,7 @@ $(document).ready(function () {
 
         getUVLatLong();
 
-        //getCity();
+        getForecastData();
 
         getNews();
     });
