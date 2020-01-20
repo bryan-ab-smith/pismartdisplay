@@ -93,6 +93,7 @@ function getWeather() {
     document.getElementById('weatherUpdateDate').innerHTML = 'Last update: ' + curTime;
     setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here to ensure no limiting.
     setTimeout(getUVLatLong, 1800000);
+    setTimeout(getForecastData, 1800000);
 }
 
 function getForecastData() {
