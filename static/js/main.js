@@ -122,6 +122,8 @@ function getForecastData() {
             document.getElementById('forecast').innerHTML = '<i class="material-icons">error_outline</i>';
         }
     }
+
+    setTimeout(getForecastData, 1800000);
 }
 
 
