@@ -91,8 +91,6 @@ function getWeather() {
     var curTime = hrs + ':' + min + ':' + secs;
 
     document.getElementById('weatherUpdateDate').innerHTML = 'Last update: ' + curTime;
-    setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here to ensure no limiting.
-    setTimeout(getUVLatLong, 1800000);
 }
 
 function getForecastData() {
@@ -213,7 +211,7 @@ function getNews() {
             document.getElementById('news').innerHTML = 'N/A';
         }
     });
-    setTimeout(getNews, 1800000);
+
 }
 
 
@@ -292,5 +290,10 @@ $(document).ready(function () {
         getForecastData();
 
         getNews();
+
+        setTimeout(getWeather, 1800000); // Every thirty minutes. The API services only allow so many free calls so I'm erring on the side of caution here to ensure no limiting.
+        setTimeout(getUVLatLong, 1800000);
+        setTimeout(getNews, 1800000);
+        setTimeout(getForecastData, 1800000);
     });
 });
