@@ -91,6 +91,7 @@ function getWeather() {
     var curTime = hrs + ':' + min + ':' + secs;
 
     document.getElementById('weatherUpdateDate').innerHTML = 'Last update: ' + curTime;
+    setTimeout(getWeather, 1800000);
 }
 
 function getForecastData() {
@@ -140,6 +141,7 @@ function getUVLatLong() {
         url: 'https://api.openuv.io/api/v1/uv?lat=' + lat + '&lng=' + lng,
         success: function (response) {
             document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ', max. ' + parseFloat(response.result.uv_max).toFixed(1);
+            setTimeout(getUVLatLong, 1800000);
         },
         error: function (response) {
             console.log(response)
@@ -205,6 +207,8 @@ function getNews() {
             document.getElementById('newsTitle').innerHTML = 'Top Headlines (as of ' + curTime + ')';
             document.getElementById('news').innerHTML = response[0] + '<br \\>' + '<small>' + response[1] + '</small><p></p>' + response[2] + '<br \\>' + '<small>' + response[3] + '</small><p></p>' + response[4] + '<br \\>' + '<small>' + response[5] + '</small><p></p>';
             //document.getElementById('uv').innerHTML = 'UV: ' + parseFloat(response.result.uv).toFixed(1) + ', max. ' + parseFloat(response.result.uv_max).toFixed(1);
+
+            setTimeout(getNews, 1800000);
         },
         error: function (response) {
             console.log(response)
