@@ -103,7 +103,7 @@ function getForecastData() {
             var json = JSON.parse(req.responseText);
 
             forecastString = '<dl class="row">'
-            for (var x = 0; x < 5; x++) {
+            for (var x = 0; x < 3; x++) {
                 // https://stackoverflow.com/a/847196
                 var date = new Date(json.list[x].dt * 1000);
                 var hour = date.getHours();
