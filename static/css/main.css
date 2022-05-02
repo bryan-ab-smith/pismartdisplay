@@ -5,33 +5,13 @@
 body {
     background-color: rgb(33, 37, 41);
     color: white;
+    size: ;
     margin: 5%;
     /*overflow: hidden;*/
 }
 
 .spacer {
     margin-top: 2vh;
-}
-
-.card {
-    width: 100%;
-}
-
-.card-body {
-    padding: 0.75rem;
-}
-
-.smallInfo {
-    font-size: 14pt;
-}
-
-.verySmallInfo {
-    font-size: 10pt;
-}
-
-.list-group-item.active {
-    background-color: #6c757d;
-    border-color: #6c757d;
 }
 
 /*
@@ -42,26 +22,5 @@ body {
 .btn:focus,.btn:active  {
     outline: none !important;
     box-shadow: none;
-}
 
-.list-group-item {
-    background-color: #33383e;
-    color: white;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show >.nav-link {
-    background-color: #6c757c;
-}
-
-.modal-content {
-    background-color: #181c1f;
-}
-
-.modal-footer {
-    border-top: 0px;
-}
-
-#newsBody {
-    overflow-y: scroll;
-    height: 150px;
 }

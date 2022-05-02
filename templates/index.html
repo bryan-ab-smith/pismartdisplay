@@ -26,216 +26,42 @@
 </head>
 
 <body>
-    <div class='container'>
-        <div class='row'>
-            <div class='col-8'>
-                <h1 class='display-1' id='time'></h1>
+    <div class='container-fluid'>
+        <div class='grid'>
+            <div class='row'>
+                <div class='col-sm lead'>
+                    <h2>All Lights</h2>
+                </div>
+                <div class='col-sm'>
+                        <div class='btn-group' role='group'>
+                            <button class='btn btn-secondary'
+                                onclick='toggleAllLights("bright");'><h1>On</h1></button>
+                            <button class='btn btn-secondary'
+                                onclick='toggleAllLights("evening");'><h1>Evening</h1></button>
+                            <button class='btn btn-secondary'
+                                onclick='toggleAllLights("off");'><h1>Off</h1></button>
+                        </div>
+                </div>
             </div>
-            <div class='col-4'>
+        </div>
+        <div class='row mt-2'>
+            <p></p>
+        </div>
+        <div class='row mt-5'>
+        {% for light in lights %}
+            <div class='col-sm-4'>
                 <center>
-                    <div class="alert alert-dark" role="alert"
-                        style="background-color: #6c757c; border-color: #6c757c; color: white;">
-                        <span class="lead" id='date'></span>
-                        <br \>
-                        <span class='smallInfo align-middle' id='weather'>...</span>
-                        <br \>
-                        <span class='smallInfo align-middle' id='uv'>...</span>
-                        <!--
-                            This needs to be uncommented if you want to see the city you're in.
-                        <br \>
-                        <span class='smallInfo align-middle' id='location'>...</span>
-                        -->
-                        <p id='weatherUpdateDate' class='verySmallInfo'></p>
-                    </div>
+                <h2 class="mt-2">{{ light }}</h2>
+                <p></p>
+                <div class='btn-group mt-2' role='group'>
+                    <button class='btn btn-secondary'
+                        onclick='toggleLight("on", "{{ light }}");'><h1>On</h1></button>
+                    <button class='btn btn-secondary'
+                        onclick='toggleLight("off", "{{ light }}");'><h1>Off</h1></button>
+                </div>
                 </center>
             </div>
-        </div>
-    </div>
-
-    <p class='spacer'></p>
-
-    <div class="row">
-        <div class="col-3">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                {% if lightsEnabled == 'True' %}
-                <a class="nav-link text-white" id="v-pills-lights-tab" data-toggle="pill" href="#v-pills-lights"
-                    role="tab" aria-controls="v-pills-lights" aria-selected="true">Lights</a>
-                {% endif %}
-                {% if plugsEnabled == 'True' %}
-                <a class="nav-link text-white" id="v-pills-plugs-tab" data-toggle="pill" href="#v-pills-plugs"
-                    role="tab" aria-controls="v-pills-plugs" aria-selected="false">Plugs</a>
-                {% endif %}
-                <a class="nav-link text-white" id="v-pills-news-tab" data-toggle="pill" href="#v-pills-news" role="tab"
-                    aria-controls="v-pills-news" aria-selected="false">News</a>
-                <a class="nav-link text-white" id="v-pills-news-tab" data-toggle="pill" href="#v-pills-forecast"
-                    role="tab" aria-controls="v-pills-forecast" aria-selected="false">Forecast</a>
-                <a class="nav-link text-white" id="v-pills-system-tab" data-toggle="pill" href="#v-pills-system"
-                    role="tab" aria-controls="v-pills-system" aria-selected="false">System</a>
-            </div>
-        </div>
-        <div class="col-9">
-            <div class="tab-content" id="v-pills-tabContent">
-                {% if lightsEnabled == 'True' %}
-                <div class="tab-pane fade show" id="v-pills-lights" role="tabpanel"
-                    aria-labelledby="v-pills-lights-tab">
-                    <div class='card text-white bg-dark mb-3'>
-                        <div class='card-header'>
-                            <div class='grid'>
-                                <div class='row'>
-                                    <div class='col-sm-3 lead'>
-                                        Lights
-                                    </div>
-                                    <div class='col-sm-8'>
-                                        <div class='col-sm-3' style='float: right;'>
-                                            <div class='btn-group' role='group'>
-                                                <button class='btn btn-secondary'
-                                                    onclick='toggleAllLights("True");'>On</button>
-                                                <button class='btn btn-secondary'
-                                                    onclick='toggleAllLights("False");'>Off</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='card-body'>
-                            <p class='card-text'>
-                                <div class='container'>
-                                    <div class='row'>
-
-                                        {% for light in lights %}
-                                        <div class='col-sm'>
-                                            <center>
-                                                <h6>{{ light }}</h6>
-                                                <p></p>
-                                                <div class='btn-group' role='group'>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='toggleLight("True", "{{ light }}");'>On</button>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='toggleLight("False", "{{ light }}");'>Off</button>
-                                                </div>
-                                            </center>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                {% if plugsEnabled == 'True' %}
-                <div class="tab-pane fade" id="v-pills-plugs" role="tabpanel" aria-labelledby="v-pills-plugs-tab">
-                    <div class='card text-white bg-dark mb-3'>
-                        <div class='card-header'>
-                            <div class='grid'>
-                                <div class='row'>
-                                    <div class='col-sm-3 lead'>
-                                        Plugs
-                                    </div>
-                                    <div class='col-sm-8'>
-                                        <div class='col-sm-3' style='float: right;'>
-                                            <div class='btn-group' role='group'>
-                                                <button class='btn btn-secondary'
-                                                    onclick='toggleAllPlugs("True");'>On</button>
-                                                <button class='btn btn-secondary'
-                                                    onclick='toggleAllPlugs("False");'>Off</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='card-body'>
-                            <p class='card-text'>
-                                <div class='container'>
-                                    <div class='row'>
-
-                                        {% for plug in plugs %}
-                                        <div class='col-sm'>
-                                            <center>
-                                                <h6>{{ plug }}</h6>
-                                                <p></p>
-                                                <div class='btn-group' role='group'>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='togglePlug("True", "{{ plug }}");'>On</button>
-                                                    <button class='btn btn-secondary'
-                                                        onclick='togglePlug("False", "{{ plug }}");'>Off</button>
-                                                </div>
-                                            </center>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                <div class="tab-pane fade" id="v-pills-news" role="tabpanel" aria-labelledby="v-pills-news-tab">
-                    <div class='card text-white bg-dark mb-3'>
-                        <div id='newsTitle' class='card-header lead'>
-
-                        </div>
-                        <div id='newsBody' class='card-body'>
-                            <p id='news' class='card-text'>
-
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="v-pills-forecast" role="tabpanel" aria-labelledby="v-pills-forecast-tab">
-                    <div class='card text-white bg-dark mb-3'>
-                        <div id='forecastTitle' class='card-header lead'>
-                            Forecast
-                        </div>
-                        <div id='forecastBody' class='card-body'>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Panel -->
-                <div class="tab-pane fade" id="v-pills-system" role="tabpanel" aria-labelledby="v-pills-system-tab">
-                    <div class='card text-white bg-dark mb-3'>
-                        <div class='card-header lead'>
-                            System
-                        </div>
-                        <div class='card-body'>
-                            <div class='container'>
-                                <div class='row'>
-                                    <div class='col-md'>
-                                        <p class='lead'>Boot Time</p>
-                                        <p>{{ bootTime }}</p>
-                                    </div>
-                                    <div class='col-md'>
-                                        <button type="button" class="btn btn-info"
-                                            onclick='location.reload(true);'>Refresh</button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#rebootModal">Restart</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id='rebootModal' tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <div class="modal-body">
-                    <p>Are you sure that you want to restart?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" onclick='reboot();'>Restart</button>
-                </div>
-            </div>
+        {% endfor %}
         </div>
     </div>
 

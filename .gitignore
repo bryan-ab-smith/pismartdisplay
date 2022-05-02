@@ -1,4 +1,5 @@
 static/config.json
-old/
-testground.py
-deploy.sh
+venv/*
+__pycache__/*
+snapshot.json
+tinytuya.json
