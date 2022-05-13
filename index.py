@@ -55,12 +55,12 @@ def toggleLight(status, name):
             tuyactrl.turn_off(name)
             return 'on'
         case 'bright':
-                tuyactrl.bright_white(name)
-                tuyactrl.turn_on(name)
+            tuyactrl.bright_white(name)
+            tuyactrl.turn_on(name)
             return 'light bright!'
         case 'evening':
-                tuyactrl.evening(name)
-                tuyactrl.turn_on(name)
+            tuyactrl.evening(name)
+            tuyactrl.turn_on(name)
             return 'little mood light!'
         case _:
             return 'Sorry Dave, afraid I can\'t do that'
