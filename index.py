@@ -39,6 +39,7 @@ def index():
         # Append the light to the list.
         lights.append(light["name"])
 
+    lights.sort()
     # Render the homepage.
     return render_template('index.html',
                            lightsEnabled="True",
