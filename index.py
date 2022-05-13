@@ -67,7 +67,7 @@ def toggleLight(status, name):
 
 
 @app.route('/light/<name>/status')
-def getLightState(name)
+def getLightState(name):
     return tuyactrl.light_status(name)
 
 @app.route('/allLights/<status>')
