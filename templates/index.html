@@ -48,7 +48,7 @@
             <p></p>
         </div>
         <div class='row mt-5'>
-        {% for light in lights %}
+        {% for light in lights.sorted() %}
             <div class='col-sm-4'>
                 <center>
                 <h2 class="mt-2">{{ light }}</h2>
