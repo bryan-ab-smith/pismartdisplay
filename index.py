@@ -49,10 +49,10 @@ def index():
 def toggleLight(status, name):
     match status:
         case 'off':
-            tuyactrl.turn_on(name)
+            tuyactrl.turn_off(name)
             return 'off'
         case 'on':
-            tuyactrl.turn_off(name)
+            tuyactrl.turn_on(name)
             return 'on'
         case 'bright':
             tuyactrl.bright_white(name)
