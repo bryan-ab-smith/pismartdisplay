@@ -47,13 +47,28 @@ def index():
 
 @app.route('/light/<name>/<status>')
 def toggleLight(status, name):
-    if status == 'True':
-        tuyactrl.turn_on(name)
-    else:
-        tuyactrl.turn_off(name)
+    match status:
+        case 'off':
+            tuyactrl.turn_on(name)
+            return 'off'
+        case 'on':
+            tuyactrl.turn_off(name)
+            return 'on'
+        case 'bright':
+                tuyactrl.bright_white(name)
+                tuyactrl.turn_on(name)
+            return 'light bright!'
+        case 'evening':
+                tuyactrl.evening(name)
+                tuyactrl.turn_on(name)
+            return 'little mood light!'
+        case _:
+            return 'Sorry Dave, afraid I can\'t do that'
 
-    return 'hi!'
 
+@app.route('/light/<name>/status')
+def getLightState(name)
+    return tuyactrl.light_status(name)
 
 @app.route('/allLights/<status>')
 def toggleAllLights(status):
