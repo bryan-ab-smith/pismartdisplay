@@ -77,15 +77,14 @@ def toggleAllLights(status):
             tuyactrl.office_off()
             return 'lights out!'
         case 'bright':
-            for light in tuyasnap["devices"]:
-                tuyactrl.bright_white(light["name"])
-                tuyactrl.turn_on(light["name"])
+            tuyactrl.office_bright()
             return 'light bright!'
         case 'evening':
-            for light in tuyasnap["devices"]:
-                tuyactrl.evening(light["name"])
-                tuyactrl.turn_on(light["name"])
+            tuyactrl.office_evening()
             return 'little mood light!'
+        case 'rainbow':
+            tuyactrl.office_rainbow()
+            return 'Rain BOW!'
         case _:
             return 'Sorry Dave, afraid I can\'t do that'
 
