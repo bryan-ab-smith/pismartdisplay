@@ -1,5 +1,5 @@
 function toggleAllLights(status) {
-    $.ajax({ type: 'GET', url: '/allLights/' + status });
+    $.ajax({ type: 'GET', url: '/light/all/' + status });
 }
 
 function toggleLight(status, name) {

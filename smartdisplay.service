@@ -4,9 +4,9 @@ After = network.target
 
 [Service]
 PermissionsStartOnly = true
-User = pi
-WorkingDirectory = /home/pi/smartdisplay/
-ExecStart = /usr/bin/env python3 index.py
+User = root
+WorkingDirectory = /home/mrobinson/officelightthing
+ExecStart = /home/mrobinson/officelightthing/venv/bin/python index.py
 ExecReload = /bin/kill -s HUP $MAINPID
 
 [Install]

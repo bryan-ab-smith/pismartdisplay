@@ -47,6 +47,17 @@ def white_setting(name,bright,temp):
     d.set_brightness_percentage(brightness=bright)
     d.set_colourtemp_percentage(colourtemp=temp)
 
+def color_setting(name,bright,r,g,b):
+    # find the right item that matches name
+    for item in data["devices"]:
+        if item["name"] == name:
+            break
+    print("\nSetting White: %s" % item["name"])
+    d = tinytuya.BulbDevice(item["id"], item["ip"], item["key"])
+    d.set_version(float(item["ver"]))
+    d.set_brightness_percentage(brightness=bright)
+    d.set_colour(int(r),int(g),int(b))
+
 def office_bright():
     for light in data["devices"]:
         bright_white(light["name"])
@@ -80,3 +91,21 @@ def office_rainbow():
                 d.turn_on()
                 time.sleep(2)
 
+def status(name):
+    hr_status = {}
+    # find the right item that matches name
+    for item in data["devices"]:
+        if item["name"] == name:
+            break
+    print("\nStatus For: %s" % item["name"])
+    d = tinytuya.BulbDevice(item["id"], item["ip"], item["key"])
+    d.set_version(float(item["ver"]))
+    status = d.status()
+    hr_status["light_on"] = status["dps"]["20"]
+    hr_status["mode"] = status["dps"]["21"]
+    hr_status["bright"] = status["dps"]["22"]
+    hr_status["temp"] = status["dps"]["23"]
+    hr_status["color_hex"] = status["dps"]["24"]
+    return hr_status
+    
+    
