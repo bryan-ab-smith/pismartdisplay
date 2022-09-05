@@ -9,7 +9,7 @@ import json
 import tinytuya
 import time
 import tuyactrl
-from matplotlib import colors
+from webcolors import name_to_rgb
 from joblib import Parallel, delayed
 
 
@@ -68,10 +68,7 @@ def rgbAllLight(r,g,b):
 
 @app.route('/light/<name>/color/<color>')
 def colorLight(name,color):
-    rgb = colors.to_rgb(color)
-    r= int(rgb[0] * 255)
-    g = int(rgb[1] * 255)
-    b = int(rgb[2] * 255)
+    r, g, b = name_to_rgb(color)
     tuyactrl.color_setting(name,100,r,g,b)
     tuyactrl.turn_on(name)
     return tuyactrl.status(name)
